@@ -1,12 +1,15 @@
 package org.softwire.training.bookish;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.ConstructorMapper;
+import org.softwire.training.bookish.models.database.Book;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class Main {
 
@@ -45,20 +48,21 @@ public class Main {
           }
         } catch (SQLException e) {
             e.printStackTrace();
-        //   JDBCTutorialUtilities.printSQLException(e);
         }
       }
 
     private static void jdbiMethod(String connectionString) {
         System.out.println("\nJDBI method...");
 
-        // TODO: print out the details of all the books (using JDBI)
-        // See this page for details: http://jdbi.org
-        // Use the "Book" class that we've created for you (in the models.database folder)
-
         Jdbi jdbi = Jdbi.create(connectionString);
 
+        List<Book> books = jdbi.withHandle(handle -> {
+            handle.registerRowMapper(ConstructorMapper.factory(Book.class));
+            return handle.createQuery("select * from book")
+                .mapTo(Book.class)
+                .list();
+        });
 
-
+        books.forEach(System.out::println);
     }
 }

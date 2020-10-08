@@ -5,6 +5,8 @@ target/
 
 dependency-reduced-pom.xml
 
+.factorypath
+
 # VS Code
 .classpath
 .project
