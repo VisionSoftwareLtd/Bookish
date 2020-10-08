@@ -12,8 +12,8 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         String hostname = "localhost";
         String database = "bookish";
-        String user = "bookish";
-        String password = "bookish";
+        String user = "dave";
+        String password = "admin";
         String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&useSSL=false";
 
         jdbcMethod(connectionString);
