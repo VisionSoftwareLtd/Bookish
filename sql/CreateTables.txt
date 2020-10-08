@@ -2,7 +2,7 @@ CREATE TABLE `book` (
   `ISBN` varchar(40) NOT NULL,
   `Title` varchar(45) DEFAULT NULL,
   `Author` varchar(45) DEFAULT NULL,
-  `Copies owned` int DEFAULT NULL,
+  `CopiesOwned` int DEFAULT NULL,
   PRIMARY KEY (`ISBN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -20,3 +20,9 @@ CREATE TABLE `loan` (
   `duedate` datetime DEFAULT NULL,
   PRIMARY KEY (`bookisbn`,`idmember`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `bookish`.`book` (`ISBN`, `Title`, `Author`, `CopiesOwned`) VALUES ('1234', 'The Life and Times of Reginal Perrin', 'Reggie Perrin', '2');
+
+INSERT INTO `bookish`.`member` (`title`, `firstname`, `surname`) VALUES ('Mr', 'Dave', 'Wright');
+
+INSERT INTO `bookish`.`loan` (`bookisbn`, `idmember`, `duedate`) VALUES ('1234', '1', '2020-10-31');

@@ -4,8 +4,9 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 
 public class Main {
 
@@ -14,7 +15,7 @@ public class Main {
         String database = "bookish";
         String user = "dave";
         String password = "admin";
-        String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&useSSL=false";
+        String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&allowPublicKeyRetrieval=true&useSSL=false";
 
         jdbcMethod(connectionString);
         jdbiMethod(connectionString);
@@ -28,9 +29,25 @@ public class Main {
 
         Connection connection = DriverManager.getConnection(connectionString);
 
-
+        viewTable(connection);
 
     }
+
+    public static void viewTable(Connection con) throws SQLException {
+        String query = "select * from BOOK";
+        try (Statement stmt = con.createStatement()) {
+          ResultSet rs = stmt.executeQuery(query);
+          while (rs.next()) {
+            String isbn = rs.getString("ISBN");
+            String title = rs.getString("TITLE");
+            String author = rs.getString("AUTHOR");
+            System.out.println(isbn + ", " + title + ", " + author);
+          }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        //   JDBCTutorialUtilities.printSQLException(e);
+        }
+      }
 
     private static void jdbiMethod(String connectionString) {
         System.out.println("\nJDBI method...");
